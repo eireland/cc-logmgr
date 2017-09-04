@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+  <script src="./query.js" language="javascript"></script>
+</head>
+
+<body>
+
+
+<div class="container">
+  <form id="query_form" action="/db" method="post">
+    <select class="dropdown" name="application">
+        <!-- This list should be generated dynamically by this query >>select distinct application from logs where application not like 'Unknown%'; =>Query to get all applications available-->
+        <option value="CODAP">CODAP</option>
+        <option value="GeniStarDev">GeniStarDev</option>
+        <option value="GRASP">GRASP</option>
+        <option value="Hasbot-Dashboard">Hasbot-Dashboard</option>
+        <option value="LARA-log-poc">LARA-log-poc</option>
+        <option value="LARA-log-zeus">LARA-log-zeus</option>
+        <option value="TEST">TEST</option>
+    </select>
+
+    <input id="button" type="submit" role="button"/>
+  </form>
+</div>
+<div class="container">
+  <div id="query_result_table" class="result_table">
+
+  </div>
+</div>
+
+
+</body>
+</html>
