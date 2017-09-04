@@ -25,3 +25,20 @@
     .jumbotron .lang-logo img {
       max-width: 100%; }
 
+th {
+   background-color: #000;
+    color: white;
+    height: 35px;
+}
+
+th, td {
+    padding: 15px;
+    border-bottom: 1px solid #ddd;
+    min-width: 100px;
+    max-width: 300px;
+    min-height: 35px;
+}
+
+tr:nth-child(even) {background: #CCC}
+tr:nth-child(odd) {background: #FFF}
+

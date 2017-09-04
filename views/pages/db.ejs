@@ -5,6 +5,8 @@
 </head>
 
 <body>
+<% include ../partials/nav.ejs %>
+
 
 <div class="container">
     <form id="query_form" action="/db" method="post">
@@ -26,17 +28,26 @@
 <div class="container">
 <h2>Database Results</h2>
 
-<ul>
+    <% if (results==null || results.length==0) { %>
+            <p> No records found</p>
     <%
-        if (results==null || results.length==0) { %>
-            <p> No records found</p><%
         }
-        else {
-        results.forEach(function(r) { %>
-        <li><%= r.time %> | <%= r.application %> | <%= r.activity %> | <%= r.event %> | <%= r.parameters %></li>
-    <% }); }
+        else {%>
+        <table>
+            <col><col><col><col><col>
+            <tr>
+                <th>Application</th>
+                <th>Time</th>
+                <th>Activity</th>
+                <th>Event</th>
+                <th>Parameters</th>
+            </tr>
+            <%
+                results.forEach(function(r) { %>
+        <tr><td><%= r.application %></td><td><%= r.time %> </td><td><%= r.activity %></td><td> <%= r.event %></td><td><%= r.parameters %></td></tr>
+            <% }); }
     %>
-</ul>
+</table>
 
 </div>
 
