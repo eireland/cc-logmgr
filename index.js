@@ -9,7 +9,7 @@ var query_date = date.getDate() - 2;
 app.use(bodyParser.urlencoded({extended: false}));
 
 const {Pool, Client} = require('pg');
-const connectionString = 'postgres://ucbntqpfheglgv:p9ug7dvqnqgsm4cg8libj974t1h@ec2-54-225-80-108.compute-1.amazonaws.com:5442/d4u8rvpga9gus0';
+const connectionString = process.env.DATABASE_URL;
 
 console.log(connectionString);
 
@@ -41,7 +41,13 @@ app.post('/db', function (request, response) {
   console.log(query_date);
 
   var application = request.body.application;
-  var query_string = "SELECT time, application, activity, event, parameters FROM logs WHERE application='" + application + "' and time<'" + query_date + "'order by time desc limit 500";
+  var num_records = 100; //default num records if user does not enter a num records
+
+  if (request.body.num_records != '' && request.body.num_records != null) {
+    num_records = request.body.num_records;
+  }
+
+  var query_string = "SELECT time, application, activity, event, parameters FROM logs WHERE application='" + application + "' and time<'" + query_date + "' order by time desc limit " + num_records;
   console.log("Query string is: " + query_string);
 
   pool.query(query_string, function (err, result) {
