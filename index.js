@@ -47,7 +47,7 @@ app.post('/db', function (request, response) {
     num_records = request.body.num_records;
   }
 
-  var query_string = "SELECT time, application, activity, event, parameters FROM logs WHERE application='" + application + "' and time<'" + query_date + "' order by time desc limit " + num_records;
+  var query_string = "SELECT time, application, session, username, activity, event, event_value, parameters FROM logs WHERE application='" + application + "' and time<'" + query_date + "' order by time desc limit " + num_records;
   console.log("Query string is: " + query_string);
 
   pool.query(query_string, function (err, result) {

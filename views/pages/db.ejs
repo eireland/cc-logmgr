@@ -20,7 +20,8 @@
             <option value="LARA-log-zeus">LARA-log-zeus</option>
             <option value="TEST">TEST</option>
         </select>
-
+        <label>     How many records?</label>
+        <input id="num_records" name="num_records" type="text">
         <input id="button" type="submit" role="button"/>
     </form>
 </div>
@@ -34,17 +35,20 @@
         }
         else {%>
         <table>
-            <col><col><col><col><col>
+            <col><col><col><col><col><col><col><col>
             <tr>
-                <th>Application</th>
                 <th>Time</th>
+                <th>Application</th>
+                <th>Session</th>
+                <th>Username</th>
                 <th>Activity</th>
                 <th>Event</th>
+                <th>Event Value</th>
                 <th>Parameters</th>
             </tr>
             <%
                 results.forEach(function(r) { %>
-        <tr><td><%= r.application %></td><td><%= r.time %> </td><td><%= r.activity %></td><td> <%= r.event %></td><td><%= r.parameters %></td></tr>
+        <tr><td><%= r.time %> </td><td><%= r.application %></td><td><%= r.session %> </td><td><%= r.username %> </td><td><%= r.activity %></td><td> <%= r.event %></td><td> <%= r.event_value %></td><td><%= r.parameters %></td></tr>
             <% }); }
     %>
 </table>
