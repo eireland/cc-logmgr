@@ -47,6 +47,10 @@ app.post('/db', function (request, response) {
     num_records = request.body.num_records;
   }
 
+  if (request.body.end_date != '' && request.body.end_date != null) {
+    query_date = request.body.end_date;
+  }
+
   var query_string = "SELECT time, application, session, username, activity, event, event_value, parameters FROM logs WHERE application='" + application + "' and time<'" + query_date + "' order by time desc limit " + num_records;
   console.log("Query string is: " + query_string);
 
