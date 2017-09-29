@@ -10,6 +10,7 @@
 
 <div class="container">
     <form id="query_form" action="/db" method="post">
+        <label>Application</label>
         <select class="dropdown" name="application">
             <!-- This list should be generated dynamically by this query >>select distinct application from logs where application not like 'Unknown%'; =>Query to get all applications available-->
             <option value="CODAP">CODAP</option>
@@ -20,11 +21,16 @@
             <option value="LARA-log-zeus">LARA-log-zeus</option>
             <option value="TEST">TEST</option>
         </select>
-        <label>End date?(Remove everything after GMT in the Time string from the table)</label>
+        <!-- Opting to type in partial activity name as activity name list keeps growing and currently numbers over 5800 distinct activities -->
+        <br><label>Activity Name?(partial names accepted, leave blank if no specific activity)</label>
+        <input id="activity_name" name="activity_name" type="text">
+        <br><label>Start date?(Remove everything after GMT in the Time string from the table)</label>
+        <input id="start_date" name="start_date" type="datetime">
+        <br><label>End date?(Remove everything after GMT in the Time string from the table)</label>
         <input id="end_date" name="end_date" type="datetime">
-        <label>     How many records?</label>
+        <br><label>     How many records?</label>
         <input id="num_records" name="num_records" type="text">
-        <input id="button" type="submit" role="button"/>
+        <br><input id="button" type="submit" role="button"/>
     </form>
 </div>
 

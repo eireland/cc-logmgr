@@ -37,8 +37,10 @@ app.post('/db', function (request, response) {
 
   var m = Date.now() + 72 * 3600 * 1000;//Return all logs with date less the 3 days from now.
   var d = new Date(m);
-  var query_date = d.getFullYear() + "-" + ("0" + (d.getMonth() + 1)).slice(-2) + "-" + ("0" + d.getDate()).slice(-2);
-  console.log(query_date);
+  var query_end_date = d.getFullYear() + "-" + ("0" + (d.getMonth() + 1)).slice(-2) + "-" + ("0" + d.getDate()).slice(-2);
+  console.log(query_end_date);
+  var query_start_date = null;
+  var activity_name = null;
 
   var application = request.body.application;
   var num_records = 100; //default num records if user does not enter a num records
@@ -48,10 +50,29 @@ app.post('/db', function (request, response) {
   }
 
   if (request.body.end_date != '' && request.body.end_date != null) {
-    query_date = request.body.end_date;
+    query_end_date = request.body.end_date;
   }
 
-  var query_string = "SELECT time, application, session, username, activity, event, event_value, parameters FROM logs WHERE application='" + application + "' and time<'" + query_date + "' order by time desc limit " + num_records;
+  if (request.body.start_date != '' && request.body.start_date != null) {
+    query_start_date = request.body.start_date;
+  }
+
+  if (request.body.activity_name != '' && request.body.activity_name != null) {
+    activity_name = request.body.activity_name;
+  }
+
+  var query_string = "SELECT time, application, session, username, activity, event, event_value, parameters FROM logs WHERE application='" + application + "'";
+
+// select distinct activity from logs where application not like 'Unknown%' and activity like '%Untitled%' order by activity desc;
+  if (activity_name != null) {
+    query_string = query_string + " and activity like '%" + activity_name +"%'"
+  }
+  if (query_start_date!= null){
+    query_string = query_string + " and time>'" + query_start_date + "'";
+  }
+
+  query_string = query_string  + " and time<'" + query_end_date + "' order by time desc limit " + num_records;
+
   console.log("Query string is: " + query_string);
 
   pool.query(query_string, function (err, result) {
