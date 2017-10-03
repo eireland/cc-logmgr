@@ -28,7 +28,7 @@
         <input id="start_date" name="start_date" type="datetime">
         <br><label>End date?(Remove everything after GMT in the Time string from the table)</label>
         <input id="end_date" name="end_date" type="datetime">
-        <br><label>     How many records?</label>
+        <br><label>How many records?</label>
         <input id="num_records" name="num_records" type="text">
         <br><input id="button" type="submit" role="button"/>
     </form>
@@ -42,8 +42,7 @@
     <%
         }
         else {%>
-        <table>
-            <col><col><col><col><col><col><col><col>
+        <table id="result_table">
             <tr>
                 <th>Time</th>
                 <th>Application</th>

@@ -6,7 +6,7 @@ A barebones Node.js app using [Express 4](http://expressjs.com/).
 
 Make sure you have [Node.js](http://nodejs.org/) and the [Heroku CLI](https://cli.heroku.com/) installed.
 
-```sh
+```
 $ git clone https://github.com/eireland/cc-logmgr.git # or clone your own fork
 $ cd cc-logmgr
 $ npm install
@@ -30,3 +30,9 @@ $ heroku create
 $ git push heroku master
 $ heroku open
 ```
+
+
+
+## Need to add
+1. Export to CSV
+2. Export to CODAP
