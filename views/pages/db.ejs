@@ -24,12 +24,18 @@
         <!-- Opting to type in partial activity name as activity name list keeps growing and currently numbers over 5800 distinct activities -->
         <br><label>Activity Name?(partial names accepted, leave blank if no specific activity)</label>
         <input id="activity_name" name="activity_name" type="text">
+        <br><label>Event?(partial names accepted, leave blank if no specific event)</label>
+        <input id="event_name" name="event_name" type="text">
+        <br><label>Session? (partial names accepted, leave blank if no specific event)</label>
+        <input id="session_id" name="session_id" type="text">
         <br><label>Start date?(Remove everything after GMT in the Time string from the table)</label>
         <input id="start_date" name="start_date" type="datetime">
         <br><label>End date?(Remove everything after GMT in the Time string from the table)</label>
         <input id="end_date" name="end_date" type="datetime">
         <br><label>How many records?</label>
         <input id="num_records" name="num_records" type="text">
+        <br><label> JSON:</label>
+        <input id="json_query" name="json_query" type="text">
         <br><input id="button" type="submit" role="button"/>
     </form>
 </div>
