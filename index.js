@@ -57,7 +57,7 @@ app.post('/db', function (request, response) {
     for (var i=0;i<list_arr.length;i++){
       list = list + "('"+list_arr[i]+"'),";
     }
-    list = list.slice(0,-1);
+    list = list.slice(0,-1);//takes out last comma from the list
     console.log("list is: "+list);
 
     join_string = "INNER JOIN (VALUES" + list + ") vals(v) ON (parameters || extras->'" + key + "') = v ";
