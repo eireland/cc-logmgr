@@ -28,10 +28,12 @@
         <input id="event_name" name="event_name" type="text">
         <br><label>Session? (partial names accepted, leave blank if no specific event)</label>
         <input id="session_id" name="session_id" type="text">
-        <br><label>Start date?(Remove everything after GMT in the Time string from the table)</label>
+        <br><label>Start date? (ex. Fri Jan 1, 2018 00:00:01 GMT)</label>
         <input id="start_date" name="start_date" type="datetime">
-        <br><label>End date?(Remove everything after GMT in the Time string from the table)</label>
+        <br><label>End date? (ex. Fri Jan 1, 2018 00:00:01 GMT)</label>
         <input id="end_date" name="end_date" type="datetime">
+        <br><label>Run remote endpoint? </label>
+        <input id="run_remote_endpoint" name="run_remote_endpoint" type="text">
         <br><label>How many records?</label>
         <input id="num_records" name="num_records" type="text">
         <br><label> JSON:</label>
@@ -57,11 +59,12 @@
                 <th>Activity</th>
                 <th>Event</th>
                 <th>Event Value</th>
+                <th>Run remote endpoint</th>
                 <th>Parameters</th>
             </tr>
             <%
                 results.forEach(function(r) { %>
-        <tr><td><%= r.time %> </td><td><%= r.application %></td><td><%= r.session %> </td><td><%= r.username %> </td><td><%= r.activity %></td><td> <%= r.event %></td><td> <%= r.event_value %></td><td><%= r.parameters %></td></tr>
+        <tr><td><%= r.time %> </td><td><%= r.application %></td><td><%= r.session %> </td><td><%= r.username %> </td><td><%= r.activity %></td><td> <%= r.event %></td><td> <%= r.event_value %></td><td><%= r.run_remote_endpoint %></td><td><%= r.parameters %></td></tr>
             <% }); }
     %>
 </table>

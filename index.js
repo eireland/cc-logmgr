@@ -33,6 +33,8 @@ app.post('/db', function (request, response) {
 
   function parseJSON(message_str){
     var join_string='',
+        parameters_string='',
+        filter_string = "(",
         key='' ,
         list='',
         list_arr=[];
@@ -55,13 +57,23 @@ app.post('/db', function (request, response) {
     console.log("key is: " +key);
 
     for (var i=0;i<list_arr.length;i++){
-      list = list + "('"+list_arr[i]+"'),";
+      //list = list + "('"+list_arr[i]+"'),";
+      parameters_string = "parameters->'"+key+"'='"+list_arr[i]+"'";
+      if (i==list_arr.length-1) {
+        filter_string = filter_string + parameters_string;}
+      else {
+        filter_string = filter_string + parameters_string + " or ";}
     }
-    list = list.slice(0,-1);//takes out last comma from the list
-    console.log("list is: "+list);
 
-    join_string = "INNER JOIN (VALUES" + list + ") vals(v) ON (parameters || extras->'" + key + "') = v ";
-    return join_string;
+    //list = list.slice(0,-1);//takes out last comma from the list
+    //console.log("list_arr is: "+list_arr);
+
+    //join_string = "INNER JOIN (VALUES" + list + ") vals(v) ON (parameters || extras->'" + key + "') = v ";
+    //return join_string;
+    //parameters_string = "(parameters->'"+key+"'='"+ //need to list out each value
+    filter_string = filter_string + ")"; //add the final close parenthesis
+    console.log("filter_string is: "+filter_string);
+    return filter_string
   }
 
   const pool = new Pool({
@@ -76,11 +88,13 @@ app.post('/db', function (request, response) {
   var activity_name = null;
   var event_name = null;
   var session_id = null;
+  var run_remote_endpoint=null;
   var json_query = null;
   var temp_table_join = null;
+  var parsed_json='';
 
   var application = request.body.application;
-  var num_records = 100; //default num records if user does not enter a num records
+  var num_records = 250; //default num records if user does not enter a num records
 
   if (request.body.num_records != '' && request.body.num_records != null) {
     num_records = request.body.num_records;
@@ -105,17 +119,21 @@ app.post('/db', function (request, response) {
   if (request.body.session_id != '' && request.body.session_id != null) {
     session_id = request.body.session_id;
   }
-
+  if (request.body.run_remote_endpoint != '' && request.body.run_remote_endpoint != null) {
+        run_remote_endpoint = request.body.run_remote_endpoint;
+  }
   if (request.body.json_query != '' && request.body.json_query != null) {
     json_query = request.body.json_query;
-    temp_table_join = parseJSON(json_query);
+    //temp_table_join = parseJSON(json_query);
+    parsed_json = parseJSON(json_query);
   }
 
 
-  var query_string = "SELECT time, application, session, username, activity, event, event_value, parameters FROM logs ";
+  var query_string = "SELECT time, application, session, username, activity, event, event_value, run_remote_endpoint FROM logs ";
 
   if (json_query !=null) {
-    query_string = query_string + temp_table_join + "WHERE application='" + application + "'";
+    //query_string = query_string + temp_table_join + "WHERE application='" + application + "'";
+    query_string = query_string + "WHERE application='" + application + "'" + " and " + parsed_json;
   }
   else {
     query_string = query_string + "WHERE application='" + application + "'";
@@ -130,7 +148,9 @@ app.post('/db', function (request, response) {
   if (session_id != null) {
     query_string = query_string + " and session like '%" + session_id +"%'"
   }
-  
+  if (run_remote_endpoint != null) {
+        query_string = query_string + " and run_remote_endpoint like '%" + run_remote_endpoint +"%'"
+  }
   if (query_start_date!= null){
     query_string = query_string + " and time>'" + query_start_date + "'";
   }
