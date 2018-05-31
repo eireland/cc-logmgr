@@ -58,7 +58,7 @@ app.post('/db', function (request, response) {
 
     for (var i=0;i<list_arr.length;i++){
       //list = list + "('"+list_arr[i]+"'),";
-      parameters_string = "parameters->'"+key+"'='"+list_arr[i]+"'";
+      parameters_string = "run_remote_endpoint='"+list_arr[i]+"'";
       if (i==list_arr.length-1) {
         filter_string = filter_string + parameters_string;}
       else {
@@ -129,7 +129,7 @@ app.post('/db', function (request, response) {
   }
 
 
-  var query_string = "SELECT time, application, session, username, activity, event, event_value, run_remote_endpoint FROM logs ";
+  var query_string = "SELECT time, application, session, username, activity, event, event_value, run_remote_endpoint, parameters FROM logs ";
 
   if (json_query !=null) {
     //query_string = query_string + temp_table_join + "WHERE application='" + application + "'";
@@ -149,13 +149,18 @@ app.post('/db', function (request, response) {
     query_string = query_string + " and session like '%" + session_id +"%'"
   }
   if (run_remote_endpoint != null) {
-        query_string = query_string + " and run_remote_endpoint like '%" + run_remote_endpoint +"%'"
+        // query_string = query_string + " and run_remote_endpoint like '%" + run_remote_endpoint +"%'"
+      query_string = query_string + " and run_remote_endpoint='" + run_remote_endpoint +"'"
+
   }
   if (query_start_date!= null){
     query_string = query_string + " and time>'" + query_start_date + "'";
   }
-
-  query_string = query_string  + " and time<'" + query_end_date + "' order by time desc limit " + num_records;
+  if (num_records=="all") {
+      query_string = query_string  + " and time<'" + query_end_date + "' order by time desc;";
+  } else {
+      query_string = query_string + " and time<'" + query_end_date + "' order by time desc limit " + num_records + ";";
+  }
   console.log("Query string is: " + query_string);
 
   pool.query(query_string, function (err, result) {
