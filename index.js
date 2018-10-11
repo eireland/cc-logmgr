@@ -40,13 +40,13 @@ app.post('/db', function (request, response) {
         list_arr=[];
     var message;
     console.log("in parseQuery. Message is: "+message_str);
+    
+    //This was the code needed to get values that was buried in a blob. Just saving in case I have to reuse for some other variable
     //join_sql =  "INNER JOIN ( "
     //join_sql << "   VALUES "
     //join_sql << "       ('" << clean_item_list.join("'), ('") << "') "
     //join_sql << "   ) vals(v) ON "
     //join_sql << "( #{hstore_columns} -> '#{clean_key}' ) = v"
-
-
     //SELECT time, application, session, username, activity, event, event_value, parameters FROM logs INNER JOIN (VALUES("https://learn.concord.org/dataservice/external_activity_data/19507da6-8c48-4de9-8a02-0686248b396d"),("https://learn.concord.org/dataservice/external_activity_data/b7894aad-9529-49a3-b530-81c3108f08d4"),("https://learn.concord.org/dataservice/external_activity_data/86248b91-b047-4e12-bdec-6cb9190f553b")) vals(v) ON (parameter || extras->'run_remote_endpoint') = v WHERE application='GeniStarDev' and time<'2017-12-15' order by time desc limit 1
 
     message = JSON.parse(message_str);
