@@ -3,7 +3,7 @@ var app = express();
 var bodyParser = require('body-parser');
 
 var date = new Date();
-;
+
 var query_date = date.getDate() - 2;
 
 app.use(bodyParser.urlencoded({extended: false}));
