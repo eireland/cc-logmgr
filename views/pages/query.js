@@ -13,8 +13,8 @@ $(document).ready(function (){
 
   function fetchQueryResults (){
     console.log("In fetchQueryResults");
-    var dbURL = "postgres://ucbntqpfheglgv:p9ug7dvqnqgsm4cg8libj974t1h@ec2-54-225-80-108.compute-1.amazonaws.com:5442/d4u8rvpga9gus0";
-    $.ajax({
+    var dbURL = process.env.DATABASE_URL;
+      $.ajax({
       url: dbURL,
       type: "GET",
       success: buildTable,
@@ -27,4 +27,4 @@ $(document).ready(function (){
   function buildTable (response){
     console.log("Response to query is: "+ JSON.stringify(response, null, ' '));
   }
-}
+});
