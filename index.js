@@ -58,10 +58,10 @@ app.post('/db', function (request, response) {
     list_arr = message.filter[0].list;
     console.log("key is: " +key);
 
-    for (var i=0;i<list_arr.length;i++){
+    for (let i=0;i<list_arr.length;i++){
       //list = list + "('"+list_arr[i]+"'),";
       parameters_string = "run_remote_endpoint='"+list_arr[i]+"'";
-      if (i==list_arr.length-1) {
+      if (i===list_arr.length-1) {
         filter_string = filter_string + parameters_string;}
       else {
         filter_string = filter_string + parameters_string + " or ";}
@@ -82,56 +82,56 @@ app.post('/db', function (request, response) {
     connectionString: connectionString,
   });
 
-  var m = Date.now() + 72 * 3600 * 1000;//Return all logs with date less the 3 days from now.
-  var d = new Date(m);
-  var query_end_date = d.getFullYear() + "-" + ("0" + (d.getMonth() + 1)).slice(-2) + "-" + ("0" + d.getDate()).slice(-2);
+  let m = Date.now() + 72 * 3600 * 1000;//Return all logs with date less the 3 days from now.
+  let d = new Date(m);
+  let query_end_date = d.getFullYear() + "-" + ("0" + (d.getMonth() + 1)).slice(-2) + "-" + ("0" + d.getDate()).slice(-2);
   console.log(query_end_date);
-  var query_start_date = null;
-  var activity_name = null;
-  var event_name = null;
-  var session_id = null;
-  var run_remote_endpoint=null;
-  var json_query = null;
-  var temp_table_join = null;
-  var parsed_json='';
+  let query_start_date = null;
+  let activity_name = null;
+  let event_name = null;
+  let session_id = null;
+  let run_remote_endpoint=null;
+  let json_query = null;
+  let temp_table_join = null;
+  let parsed_json='';
 
-  var application = request.body.application;
-  var num_records = 250; //default num records if user does not enter a num records
+  let application = request.body.application;
+  let num_records = 250; //default num records if user does not enter a num records
 
-  if (request.body.num_records != '' && request.body.num_records != null) {
+  if (request.body.num_records !== '' && request.body.num_records != null) {
     num_records = request.body.num_records;
   }
 
-  if (request.body.end_date != '' && request.body.end_date != null) {
+  if (request.body.end_date !== '' && request.body.end_date != null) {
     query_end_date = request.body.end_date;
   }
 
-  if (request.body.start_date != '' && request.body.start_date != null) {
+  if (request.body.start_date !== '' && request.body.start_date != null) {
     query_start_date = request.body.start_date;
   }
 
-  if (request.body.activity_name != '' && request.body.activity_name != null) {
+  if (request.body.activity_name !== '' && request.body.activity_name != null) {
     activity_name = request.body.activity_name;
   }
 
-  if (request.body.event_name != '' && request.body.event_name != null) {
+  if (request.body.event_name !== '' && request.body.event_name != null) {
     event_name = request.body.event_name;
   }
 
-  if (request.body.session_id != '' && request.body.session_id != null) {
+  if (request.body.session_id !== '' && request.body.session_id != null) {
     session_id = request.body.session_id;
   }
-  if (request.body.run_remote_endpoint != '' && request.body.run_remote_endpoint != null) {
+  if (request.body.run_remote_endpoint !== '' && request.body.run_remote_endpoint != null) {
         run_remote_endpoint = request.body.run_remote_endpoint;
   }
-  if (request.body.json_query != '' && request.body.json_query != null) {
+  if (request.body.json_query !== '' && request.body.json_query != null) {
     json_query = request.body.json_query;
     //temp_table_join = parseJSON(json_query);
     parsed_json = parseJSON(json_query);
   }
 
 
-  var query_string = "SELECT time, application, session, username, activity, event, event_value, run_remote_endpoint, parameters FROM logs ";
+  let query_string = "SELECT time, application, session, username, activity, event, event_value, run_remote_endpoint, parameters FROM logs ";
 
   if (json_query !=null) {
     //query_string = query_string + temp_table_join + "WHERE application='" + application + "'";
@@ -158,7 +158,7 @@ app.post('/db', function (request, response) {
   if (query_start_date!= null){
     query_string = query_string + " and time>'" + query_start_date + "'";
   }
-  if (num_records=="all") {
+  if (num_records==="all") {
       query_string = query_string  + " and time<'" + query_end_date + "' order by time desc;";
   } else {
       query_string = query_string + " and time<'" + query_end_date + "' order by time desc limit " + num_records + ";";
@@ -173,7 +173,7 @@ app.post('/db', function (request, response) {
     else
     {
       console.log('results are: ' + JSON.stringify(result, null, ' '));
-      var res=result.rows;
+      let res=result.rows;
       res.forEach((r)=>{
           hstore.parse(r.parameters, (hparam)=>{
               r.parameters = JSON.stringify(hparam);
