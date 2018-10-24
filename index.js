@@ -1,10 +1,12 @@
 var express = require('express');
 var app = express();
 var bodyParser = require('body-parser');
-
+var pgHstore = require('pg-hstore');
+var hstore = pgHstore();
 var date = new Date();
 
 var query_date = date.getDate() - 2;
+var param = {};
 
 app.use(bodyParser.urlencoded({extended: false}));
 
@@ -170,8 +172,16 @@ app.post('/db', function (request, response) {
     }
     else
     {
-      console.log(JSON.stringify(result, null, ' '));
-      response.render('pages/db', {results: result.rows});
+      console.log('results are: ' + JSON.stringify(result, null, ' '));
+      var res=result.rows;
+      res.forEach((r)=>{
+          hstore.parse(r.parameters, (hparam)=>{
+              r.parameters = JSON.stringify(hparam);
+          });
+
+      });
+
+        response.render('pages/db', {results: result.rows});
     }
 
     pool.end
